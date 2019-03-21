@@ -58,13 +58,18 @@ extension Country {
         
         return countries
     }
-    
+    static func countryPriority(_ a:Country) -> Int {
+        if a.isoCode == "GB" || a.isoCode == "US" {
+            return 100
+        }
+        return 0
+    }
     public static func find(isoCode: String, locale: Locale = .current) -> Country? {
-        return all(locale: locale).filter { $0.isoCode == isoCode } .first
+        return all(locale: locale).filter { $0.isoCode == isoCode } .sorted(by: {c1, c2 in countryPriority(c1)>countryPriority(c2)}).first
     }
     
     public static func find(callingCode: String, locale: Locale = .current) -> Country? {
-        return all(locale: locale).filter { $0.callingCode == callingCode } .first
+        return all(locale: locale).filter { $0.callingCode == callingCode } .sorted(by: {c1, c2 in countryPriority(c1)>countryPriority(c2)}).first
     }
 
     public static func currentCountryCode(currentSystemLocale: Locale = .current, formattingLocale: Locale = .current) -> String? {

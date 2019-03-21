@@ -73,4 +73,9 @@ class PlanetTests: XCTestCase {
 
         XCTAssertNil(notIncludedCountry)
     }
+    func testPrimaryCountryCodes() {
+        XCTAssertEqual(Country.find(callingCode: "+44")?.isoCode,"GB")
+        XCTAssertEqual(Country.find(callingCode: "+1")?.isoCode,"US")
+        XCTAssertEqual(Country.find(callingCode: "+66")?.isoCode,"TH")
+    }
 }
